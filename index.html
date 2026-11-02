@@ -150,7 +150,26 @@ h2{font-family:var(--serif-ko);font-weight:300;font-size:clamp(32px,3.6vw,48px);
 .contact h2{color:#fff}
 .contact .num{font-family:var(--serif-en);font-size:clamp(64px,8vw,112px);line-height:1;color:#E8D9B8;display:block;margin:20px 0 8px}
 .contact .hours{color:rgba(255,255,255,.7);font-size:16px}
-.contact .side p{color:rgba(255,255,255,.8);margin-bottom:28px}
+.contact .side>p{color:rgba(255,255,255,.8);margin-bottom:28px}
+.contact .wrap{align-items:start}
+.rsv{display:grid;gap:18px}
+.rsv .row2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.rsv label{display:block}
+.rsv label>span{display:block;font-size:13px;letter-spacing:.04em;color:#E8D9B8;margin-bottom:6px}
+.rsv input,.rsv select{width:100%;font:inherit;font-size:16px;color:#fff;background:transparent;border:0;border-bottom:1px solid rgba(232,217,184,.45);padding:10px 2px;border-radius:0;outline:none;-webkit-appearance:none;appearance:none;color-scheme:dark}
+.rsv select{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23E8D9B8' stroke-width='1.5'/%3E%3C/svg%3E") no-repeat right 4px center}
+.rsv select option{color:#0B3B3F}
+.rsv input::placeholder{color:rgba(255,255,255,.35)}
+.rsv input:focus,.rsv select:focus{border-bottom-color:#E8D9B8}
+.rsv .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.rsv .agree{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:rgba(255,255,255,.65);line-height:1.6}
+.rsv .agree input{width:18px;height:18px;flex:none;margin-top:2px;-webkit-appearance:auto;appearance:auto;accent-color:#9C7F52}
+.rsv .agree em{font-style:normal}
+.rsv button{border:0;cursor:pointer;width:100%;justify-content:center}
+.rsv button[disabled]{opacity:.6;cursor:wait}
+.rsv .msg{font-size:15px;color:#E8D9B8;min-height:1.4em;margin:0}
+.rsv .bad{border-bottom-color:#e8a08f}
+@media (max-width:520px){.rsv .row2{grid-template-columns:1fr}}
 footer{background:#071f22;color:rgba(255,255,255,.5);font-size:13px;padding:36px 0 120px}
 footer p+p{margin-top:6px}
 
@@ -367,8 +386,26 @@ footer p+p{margin-top:6px}
       <p class="hours">방문 상담은 예약제로 진행됩니다</p>
     </div>
     <div class="side">
-      <p>관리비 혜택은 선착순이고, 바다 조망 호실처럼 선호도가 높은 호실부터 빠르게 소진되고 있습니다. 전화 한 통이면 혜택 기간과 호실별 견적을 바로 확인해 드립니다.</p>
-      <div class="btns"><a class="btn gold" href="tel:1688-4018">지금 전화하기</a><a class="btn line" href="sms:1688-4018?body=라우어%20방문%20상담%20예약%20원합니다.%20희망%20날짜:">문자로 방문 예약</a></div>
+      <p>관리비 혜택은 선착순이고, 바다 조망 호실처럼 선호도가 높은 호실부터 빠르게 소진되고 있습니다. 방문 예약을 남겨 주시면 담당자가 확인 전화를 드립니다.</p>
+      <form class="rsv" id="rsv" novalidate>
+        <div class="row2">
+          <label><span>성함 *</span><input name="name" required autocomplete="name"></label>
+          <label><span>연락처 *</span><input name="phone" type="tel" required inputmode="tel" autocomplete="tel" placeholder="010-0000-0000"></label>
+        </div>
+        <div class="row2">
+          <label><span>희망 방문일 *</span><input name="date" type="date" required></label>
+          <label><span>희망 시간</span><select name="time"><option>오전 10~12시</option><option>오후 1~3시</option><option>오후 3~5시</option><option>전화로 조율</option></select></label>
+        </div>
+        <div class="row2">
+          <label><span>관심 사항</span><select name="interest"><option>입주 혜택·호실별 견적</option><option>2박 3일 체험입주</option><option>가족과 함께 방문 상담</option></select></label>
+          <label><span>방문 인원</span><select name="people"><option>1명</option><option selected>2명</option><option>3명</option><option>4명 이상</option></select></label>
+        </div>
+        <label><span>문의 내용</span><input name="memo" placeholder="궁금하신 점을 적어 주세요 (선택)"></label>
+        <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <label class="agree"><input type="checkbox" name="agree" required> <em>개인정보(성함·연락처) 수집·이용에 동의합니다. 방문 상담 안내 목적으로만 사용하며 상담 완료 후 파기합니다.</em></label>
+        <button class="btn gold" type="submit">방문 예약 신청</button>
+        <p class="msg" id="rsvmsg" role="status"></p>
+      </form>
     </div>
   </div>
 </section>
@@ -397,6 +434,25 @@ footer p+p{margin-top:6px}
   window.addEventListener('scroll',onScroll,{passive:true});onScroll();
   var o=document.querySelector('.reveal');
   if('IntersectionObserver' in window){new IntersectionObserver(function(es,ob){es.forEach(function(e){if(e.isIntersecting){o.classList.add('in');ob.disconnect();}})},{threshold:.35}).observe(o);}else{o.classList.add('in');}
+})();
+(function(){
+  var GAS='https://script.google.com/macros/s/AKfycbyJvVZnbyau7ZOvL1-WBLiWoKYyem3SXgGmpG_sfniZ8cdvZ7kgaLlCIgafW8yUM2I/exec';
+  var f=document.getElementById('rsv'),msg=document.getElementById('rsvmsg'),btn=f.querySelector('button');
+  var d=f.date,t=new Date();t.setDate(t.getDate()+1);d.min=t.toISOString().slice(0,10);
+  f.addEventListener('submit',function(ev){
+    ev.preventDefault();
+    var bad=null;['name','phone','date'].forEach(function(k){var el=f[k],ok=el.value.trim()!=='';if(k==='phone')ok=/^[0-9\-\s]{9,14}$/.test(el.value.trim());el.classList.toggle('bad',!ok);if(!ok&&!bad)bad=el;});
+    if(bad){msg.textContent='성함, 연락처, 희망 방문일을 확인해 주세요.';bad.focus();return;}
+    if(!f.agree.checked){msg.textContent='개인정보 수집·이용에 동의해 주세요.';return;}
+    var fd=new URLSearchParams(new FormData(f));fd.delete('agree');
+    fd.append('src',(new URLSearchParams(location.search).get('utm_source')||document.referrer||'direct').slice(0,120));
+    btn.disabled=true;msg.textContent='접수 중입니다…';
+    fetch(GAS,{method:'POST',mode:'no-cors',body:fd}).then(function(){
+      f.reset();msg.textContent='방문 예약이 접수되었습니다. 담당자가 곧 확인 전화를 드립니다.';
+    }).catch(function(){
+      msg.innerHTML='접수가 지연되고 있습니다. <a href="tel:1688-4018" style="color:#fff;text-decoration:underline">1688-4018</a>로 전화 주시면 바로 예약해 드립니다.';
+    }).finally(function(){btn.disabled=false;});
+  });
 })();
 </script>
 </body>
