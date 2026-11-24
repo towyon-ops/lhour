@@ -248,6 +248,14 @@ footer p+p{margin-top:6px}
   .mbar .c{background:var(--deep);color:#fff}.mbar .m{background:#E8D9B8;color:var(--deep)}
 }
 </style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-16992626288"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'AW-16992626288');
+</script>
 </head>
 <body>
 
@@ -536,12 +544,19 @@ footer p+p{margin-top:6px}
     fd.append('src',(new URLSearchParams(location.search).get('utm_source')||document.referrer||'direct').slice(0,120));
     btn.disabled=true;msg.textContent='접수 중입니다…';
     fetch(GAS,{method:'POST',mode:'no-cors',body:fd}).then(function(){
+      if(window.gtag)gtag('event','conversion',{'send_to':'AW-16992626288/9bRTCO_msL4dEPDM26Y_','value':1.0,'currency':'KRW'});
       f.reset();msg.textContent='방문 예약이 접수되었습니다. 담당자가 곧 확인 전화를 드립니다.';
     }).catch(function(){
       msg.innerHTML='접수가 지연되고 있습니다. <a href="tel:1688-4018" style="color:#fff;text-decoration:underline">1688-4018</a>로 전화 주시면 바로 예약해 드립니다.';
     }).finally(function(){btn.disabled=false;});
   });
 })();
+</script>
+<script>
+document.addEventListener('click',function(e){
+  var a=e.target.closest&&e.target.closest('a[href^="tel:"],a[href^="sms:"]');
+  if(a&&window.gtag)gtag('event','conversion',{'send_to':'AW-16992626288/UoUmCPLmsL4dEPDM26Y_','value':1.0,'currency':'KRW','transport_type':'beacon'});
+},true);
 </script>
 </body>
 </html>
